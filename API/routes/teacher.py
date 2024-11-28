@@ -11,7 +11,7 @@ class Assistance(BaseModel):
     assistance_status: str
 
 #Get all assistances
-@router.get("/subject/{id}/assistance")
+@router.get("/subject/{subject_id}/assistance")
 def read_assistances(subject_id: int):
     return teacher_services.read_assistances(subject_id)
 

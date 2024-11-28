@@ -5,7 +5,7 @@ def formate_assistance(assistance):
         "id": assistance[10],
         "status": assistance[11],
         "date": assistance[12],
-        "user" : {
+        "student" : {
             "id": assistance[0],
             "name": assistance[1],
             "last_name": assistance[2],
@@ -121,9 +121,9 @@ def modify_assistance(id,assistance):
         query = """
         UPDATE Assistance
             SET studentID = %s,
-            SET teacherID = %s,
-            SET subjectID = %s,
-            SET assistance_status = %s
+            teacherID = %s,
+            subjectID = %s,
+            assistance_status = %s
         WHERE id = %s
         """
         values = (
