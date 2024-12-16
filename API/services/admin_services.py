@@ -1,19 +1,17 @@
 from connection import Connection
 
-def register_user(user, role_id):
+def create_subject(subject):
     try:
         conn = Connection.get()
         cursor = conn.cursor()
 
-        query = "INSERT INTO User (name, lastName, email, groupID, roleID) VALUES (%s, %s, %s, %s, %s)"
-        values = (user.name, user.last_name, user.email, user.group_id, role_id)
+        query = "INSERT INTO Subject (name, room, teacherID, weekday, startTime, endTime) VALUES (%s, %s, %s, %s, %s, %s)"
+        values = (subject.name, subject.room, subject.teacher_id, subject.weekday, subject.start_time, subject.end_time)
 
         cursor.execute(query, values)
         conn.commit()
 
-        id = cursor.lastrowid
-
-        return {"ok": True, "msg": f"User {user.name} {user.last_name} registed", "id": id}
+        return {"ok": True, "msg": "Subject created"}
     except Exception as error:
         return {"ok": False, "error": f"Error: {error}"}
     finally:

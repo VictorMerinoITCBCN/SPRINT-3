@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: super
-      MYSQL_DATABASE: schoolControl
+      MYSQL_DATABASE: schoolControll
       MYSQL_USER: admin
       MYSQL_PASSWORD: super
     ports:

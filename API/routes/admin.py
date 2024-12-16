@@ -1,15 +1,18 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+from datetime import time
 from services import admin_services
 
 router = APIRouter()
 
-class User(BaseModel):
+class Subject(BaseModel):
     name: str
-    last_name: str
-    email: str
-    group_id: int
+    room: str
+    teacher_id: int
+    weekday: int
+    start_time: time
+    end_time: time
 
-@router.post("/register/student")
-def register_student(user: User):
-    return admin_services.register_user(user, 1)
+@router.post("/subject")
+def create_subject(subject: Subject):
+    return admin_services.create_subject(subject)

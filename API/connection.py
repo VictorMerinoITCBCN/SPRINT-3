@@ -12,7 +12,7 @@ class Connection:
                 port="3306",
                 user="admin",
                 password="super",
-                database="schoolControl"
+                database="schoolControll"
             )
         except Exception as e:
             print(f"Error connectiong to the DB: {e}")
