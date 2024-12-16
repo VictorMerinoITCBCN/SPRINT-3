@@ -21,8 +21,11 @@ CREATE TABLE IF NOT EXISTS User (
     name VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE,
+    hashedPassword VARCHAR(255),
+    token VARCHAR(255),
     groupID INT NOT NULL,
     roleID INT NOT NULL,
+    cardID VARCHAR(255),
     FOREIGN KEY (groupID) REFERENCES UserGroup(id),
     FOREIGN KEY (roleID) REFERENCES UserRole(id)
 );
@@ -41,12 +44,12 @@ CREATE TABLE IF NOT EXISTS Subject (
 CREATE TABLE IF NOT EXISTS Assistance (
     id INT PRIMARY KEY AUTO_INCREMENT,
     studentID INT NOT NULL,
-    teacherID INT NOT NULL,
     subjectID INT NOT NULL,
     assistance_status ENUM('present', 'absent', 'justified') NOT NULL,
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (studentID, subjectID, date),
     FOREIGN KEY (studentID) REFERENCES User(id),
-    FOREIGN KEY (teacherID) REFERENCES User(id),
     FOREIGN KEY (subjectID) REFERENCES Subject(id)
 );
+
+INSERT INTO Assistance (studentID, subjectID, assistance_status) VALUES (3, 3, "present");

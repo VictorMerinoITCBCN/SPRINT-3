@@ -23,6 +23,53 @@ def formate_assistance(assistance):
         },
     }
 
+def formate_subject(subject):
+    return {
+        "id": subject[0],
+        "name": subject[1],
+        "room": subject[2],
+        "teacher": {
+            "id": subject[3],
+            "name": subject[4],
+            "last_name": subject[5],
+            "email": subject[6]
+        },
+        "weekday": subject[7],
+        "start_time": subject[8],
+        "ent_time": subject[9]
+    }
+
+def get_subjects(teacher_id):
+    try:
+        conn = Connection.get()
+        cursor = conn.cursor()
+
+        query = """
+        SELECT
+            Subject.id,
+            Subject.name,
+            Subject.room,
+            User.id,
+            User.name,
+            User.lastName,
+            User.email,
+            Subject.weekday,
+            Subject.startTime,
+            Subject.endTime
+        FROM Subject 
+        JOIN User ON User.id = teacherID
+        WHERE teacherID = %s
+        """
+        cursor.execute(query, (teacher_id, ))
+
+        subjects = cursor.fetchall()
+
+        return {"ok": True, "subjects": [formate_subject(subject) for subject in subjects]}
+    except Exception as error:
+        return {"ok": False, "error": f"Error: {error}"}
+    finally:
+        Connection.close()
+
 def matriculate(user_id, subject_id):
     try:
         conn = Connection.get()
@@ -92,12 +139,11 @@ def create_assistance(assistance):
 
         query = """
         INSERT INTO Assistance 
-            (studentID, teacherID, subjectID, assistance_status)
-        VALUES (%s, %s, %s, %s)
+            (studentID, subjectID, assistance_status)
+        VALUES (%s, %s, %s)
         """
         values = (
             assistance.student_id,
-            assistance.teacher_id,
             assistance.subject_id,
             assistance.assistance_status
         )
@@ -121,14 +167,12 @@ def modify_assistance(id,assistance):
         query = """
         UPDATE Assistance
             SET studentID = %s,
-            teacherID = %s,
             subjectID = %s,
             assistance_status = %s
         WHERE id = %s
         """
         values = (
             assistance.student_id,
-            assistance.teacher_id,
             assistance.subject_id,
             assistance.assistance_status,
             id
