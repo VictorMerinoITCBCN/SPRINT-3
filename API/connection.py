@@ -8,7 +8,7 @@ class Connection:
     def connect():
         try:
             Connection._connection = connector.connect(
-                host="0.0.0.0",
+                host="localhost",
                 port="3306",
                 user="admin",
                 password="super",

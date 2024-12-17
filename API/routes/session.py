@@ -29,9 +29,9 @@ def verify_password(plain_pwd: str, hashed_pwd: str) -> bool:
     return pwd_context.verify(plain_pwd, hashed_pwd)
 
 @router.post("/register/{role_id}")
-def register(role_id: int, user: User, token: str):
-    is_valid_user = session_services.validate_role(token, [2, 3])
-    if not is_valid_user["ok"]: return is_valid_user
+def register(role_id: int, user: User):
+    # is_valid_user = session_services.validate_role(token, [2, 3])
+    # if not is_valid_user["ok"]: return is_valid_user
 
     user.password = hash_password(user.password)
     return session_services.register(role_id, user)

@@ -51,5 +51,3 @@ CREATE TABLE IF NOT EXISTS Assistance (
     FOREIGN KEY (studentID) REFERENCES User(id),
     FOREIGN KEY (subjectID) REFERENCES Subject(id)
 );
-
-INSERT INTO Assistance (studentID, subjectID, assistance_status) VALUES (3, 3, "present");

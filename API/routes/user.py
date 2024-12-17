@@ -5,14 +5,18 @@ from datetime import date
 
 router = APIRouter()
 
-class GetAssistancesParams(BaseModel):
-    user_id: int
-    date: date
-
 @router.get("/schedule/{user_id}")
 def get_schedule(user_id: int):
     return user_services.get_schedule(user_id)
 
-@router.post("/assistances")
-def get_assistances(params: GetAssistancesParams):
-    return user_services.get_assistances(params.user_id, params.date)
+@router.get("/assistances/{user_id}")
+def get_assistances(user_id: int):
+    return user_services.get_assistances(user_id)
+
+@router.get("/users")
+def get_users():
+    return user_services.get_users()
+
+@router.get("/subjects")
+def get_subjects():
+    return user_services.get_subjects()
