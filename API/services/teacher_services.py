@@ -186,3 +186,52 @@ def modify_assistance(id,assistance):
         return {"ok": False, "error": f"Error: {error}"}
     finally:
         Connection.close()
+
+def get_schedule(user_id):
+    try:
+        conn = Connection.get()
+        cursor = conn.cursor()
+
+        query = """
+        SELECT
+            s.id,
+            s.name,
+            s.room,
+            t.id,
+            t.name,
+            t.lastName,
+            t.email,
+            s.weekday,
+            s.startTime,
+            s.endTime
+        FROM Subject as s
+        JOIN User t ON s.teacherID = t.id
+        WHERE teacherID = %s
+        ORDER BY s.weekday, s.startTime
+        """
+
+        values = (user_id, )
+        cursor.execute(query, values)
+
+        subjects = cursor.fetchall()
+        formated_subjects = [formate_subject(subject) for subject in subjects]
+
+        monday = [subject for subject in formated_subjects if subject["weekday"] == 0]
+        tuesday = [subject for subject in formated_subjects if subject["weekday"] == 1]
+        wednesday = [subject for subject in formated_subjects if subject["weekday"] == 2]
+        thursday = [subject for subject in formated_subjects if subject["weekday"] == 3]
+        friday = [subject for subject in formated_subjects if subject["weekday"] == 4]
+
+        schedule = {
+            "monday": monday,
+            "tuesday": tuesday,
+            "wednesday": wednesday,
+            "thursday": thursday,
+            "friday": friday
+        }
+
+        return {"ok": True, "schedule": schedule}
+    except Exception as error:
+        return {"ok": False, "error": f"Error: {error}"}
+    finally:
+        Connection.close()
