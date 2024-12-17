@@ -9,6 +9,10 @@ class Assistance(BaseModel):
     subject_id: int
     assistance_status: str
 
+@router.get("/schedule/teacher/{user_id}")
+def get_schedule(user_id: int):
+    return teacher_services.get_schedule(user_id)
+
 #Get all assistances
 @router.get("/assistance/subject/{subject_id}")
 def read_assistances(subject_id: int, token: str):
